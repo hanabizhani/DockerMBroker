@@ -1,16 +1,16 @@
 public @Service class Publisher implements CommandLineRunner {
 
   private final RabbitTemplate rabbitTemplate;
-  private final Reader reader;
+  private final Consumer consumer;
 
-  public Publisher(RabbitTemplate rabbitTemplate, Reader reader) {
+  public Publisher(RabbitTemplate rabbitTemplate, Consumer consumer) {
     this.rabbitTemplate = rabbitTemplate;
-    this.reader = reader;
+    this.consumer = consumer;
   }
 
   public @Override void run(String... args) throws Exception {
     rabbitTemplate
-        .convertAndSend(RabbitMQConfiguration.TOPIC_EXCHANGE_NAME, "msg.new", getMessage());
+        .convertAndSend(RabbitMQConfiguration.TOPIC_EXCHANGE_NAME, "message.new", getMessage());
     reader.getLatch().await(10, TimeUnit.SECONDS);
   }
 
