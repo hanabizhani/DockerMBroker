@@ -1,8 +1,13 @@
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public @Service class Publisher implements CommandLineRunner {
+public @Service
+class Publisher implements CommandLineRunner {
 
   private final RabbitTemplate rabbitTemplate;
   private final Consumer consumer;
@@ -15,14 +20,14 @@ public @Service class Publisher implements CommandLineRunner {
   public @Override void run(String... args) throws Exception {
     rabbitTemplate
         .convertAndSend(RabbitMQConfiguration.TOPIC_EXCHANGE_NAME, "message.new", getMessage());
-    reader.getLatch().await(10, TimeUnit.SECONDS);
+    consumer.getLatch().await(10, TimeUnit.SECONDS);
   }
 
   private List<Message> getMessage() {
     List<Message> messages = new ArrayList<>();
     
-    messages.add("Hi All");
-    messages.add("From GreenWeb Docker Camp");
+    messages.add(new Message().setMyMessage("Hi All"));
+    messages.add(new Message().setMyMessage("From GreenWeb Docker Camp"));
 
     return messages;
   }

@@ -1,7 +1,11 @@
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-public @Service class Consumer {
+public @Service
+class Consumer {
 
   private CountDownLatch latch = new CountDownLatch(1);
 
