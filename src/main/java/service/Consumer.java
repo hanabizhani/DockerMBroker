@@ -1,3 +1,6 @@
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+
 public @Service class Consumer {
 
   private CountDownLatch latch = new CountDownLatch(1);
